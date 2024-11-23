@@ -42,7 +42,7 @@
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: #fff;
-    animation: fadeInDown 1.5s;
+    /* animation: fadeInDown 1.5s; */
   }
 
   .overlay-text .donation {
@@ -55,7 +55,7 @@
     cursor: pointer;
     text-decoration: none;
     font-weight: bold;
-    animation: pulse 1.5s infinite;
+    /* animation: pulse 1.5s infinite; */
   }
 
   .donation p {
@@ -100,6 +100,38 @@
   z-index: 10000; /* Ensure modal content stays above any other content */
 }
 
+.donation {
+    padding: 12px;
+    background: silver;
+    opacity: 0.8; /* Reduced opacity for a softer look */
+    border-radius: 20px;
+    font-size: 1.25rem;
+    margin: 0;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: transform 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+  }
+
+  .donation:hover {
+    transform: scale(1.1); /* Slightly enlarge the button */
+    background-color: #ccc; /* Change color on hover */
+    opacity: 0.9; /* Increase opacity on hover */
+  }
+
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+  }
+
+  .donation:active {
+    animation: pulse 0.5s; /* Pulse effect when clicked */
+  }
+  
   .btn-gradient:hover {
     transform: scale(1.1);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
