@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<br><br><br><br><br>
+  <div class="update-profile-container">
+    <h1 class="update-profile-title">Update Your Profile</h1>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form.as_p}}
+      <button type="submit" class="btn btn-danger update-button">Update Profile</button>
+    </form>
+    <br>
+    <a href="{% url 'profile_dashboard' %} " class="btn btn-success">Back to Dashboard</a>
+  </div>
+{% endblock %}
+

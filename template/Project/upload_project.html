@@ -1,0 +1,137 @@
+<style>
+    body {
+        font-family: 'Roboto', sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-color: #f5f5f5; /* Light grey background */
+        overflow-y: scroll; /* Enable scrolling */
+    }
+
+    .form-container {
+        background: #ffffff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 450px;
+        border: 1px solid #ddd;
+        overflow-y: auto; /* Enable scrolling inside the form container */
+        max-height: 80vh; /* Restrict the height of the form container */
+    }
+
+    h1 {
+        position: sticky;
+        top: 0;
+        background-color: #ffffff; /* White background to cover content when scrolling */
+        padding: 10px 0;
+        color: #007BFF; /* Bright blue for the heading */
+        margin-bottom: 20px;
+        z-index: 1;
+        border-bottom: 1px solid #ddd; /* Border at the bottom of the heading */
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    input[type="text"], input[type="number"], input[type="email"], input[type="password"], textarea {
+        padding: 12px;
+        font-size: 14px;
+        color: #333;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background-color: #f9f9f9; /* Light background for inputs */
+        transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="password"]:focus, textarea:focus {
+        border-color: #007BFF; /* Blue border on focus */
+        box-shadow: 0 0 8px rgba(0, 123, 255, 0.3); /* Subtle blue glow effect */
+        outline: none;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 100px;
+    }
+
+    button {
+        padding: 14px;
+        font-size: 16px;
+        color: #ffffff;
+        background-color: #007BFF; /* Blue button */
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    button:hover {
+        background-color: #0056b3; /* Darker blue on hover */
+        transform: translateY(-2px);
+    }
+
+    .link-button {
+        background-color: #28a745; /* Green for link buttons */
+    }
+
+    .link-button:hover {
+        background-color: #218838; /* Darker green on hover */
+    }
+
+    .link-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+    /* Styles for error messages */
+    .error-messages {
+        background-color: #f8d7da; /* Light red background for errors */
+        color: #721c24; /* Dark red for error text */
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #f5c6cb;
+        margin-bottom: 20px;
+        font-size: 14px;
+    }
+
+    .error-messages ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .error-messages li {
+        margin: 8px 0;
+    }
+</style>
+
+<div class="form-container">
+    <h1><strong>Project Submit Form</strong></h1>
+
+    <!-- Display general error messages -->
+    {% if messages %}
+        <div class="error-messages">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="link-container">
+        <button class="link-button" onclick="window.location.href='{% url 'project_list' %}'">Back to Project List</button>
+        <button class="link-button" onclick="window.location.href='{% url 'home' %}'">Home</button>
+    </div>
+</div>
