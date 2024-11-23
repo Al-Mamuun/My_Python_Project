@@ -148,6 +148,20 @@
     margin-bottom: 15px;
   }
 
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+  }
+
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
   footer {
     background: linear-gradient(to right, #222, #333);
   }
@@ -267,7 +281,7 @@
           <li><a href="{% url 'home' %}">Home</a></li>
           <li><a href="{% url 'education' %}">Education</a></li>
           <li><a href="{% url 'medical' %}">Medical</a></li>
-          <li><a href="{% url 'bussiness' %}">Business</a></li>
+          <li><a href="{% url 'business' %}">Business</a></li>
         </ul>
       </div>
       <div class="col-md-4">

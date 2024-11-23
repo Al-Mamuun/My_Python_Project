@@ -1,327 +1,123 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<br><br><br><br><br>
-
-<!-- Profile Page Content -->
-<div class="profile-container">
-    <!-- Sidebar -->
-    <div class="profile-sidebar">
-        <div class="profile-header">
-            <div class="profile-picture">
+   
+   <!-- Main Content -->
+   <div class="container-fluid profile-container">
+    <div class="row mt-5">
+        <!-- Left Side: Profile Card -->
+        <div class="col-md-4 p-5">
+            <div class="profile-card">
                 {% if profile.profile_picture %}
-                    <img src="{{ profile.profile_picture.url }}" alt="Profile Picture" class="profile-image">
-                {% else %}
-                    <p class="no-picture">No profile picture uploaded.</p>
-                {% endif %}
-            </div>
-            <div class="profile-name">
-                <h2>{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
-                <p>{{ profile.user.email }}</p>
-            </div>
-        </div>
-
-        <!-- Navigation Links -->
-        <ul>
-            <li><a href="{% url 'profile_dashboard' %}" class="active">Profile</a></li>
-            <li><a href="{% url 'project_list' %}">Projects</a></li>
-            <li><a href="{% url 'upload' %}">Create Project</a></li>
-            <li><a href="{% url 'signout' %}">Sign Out</a></li>
-        </ul>
-    </div>
-
-    <!-- Main Profile Section -->
-    <div class="profile-main">
-        <div class="profile-details">
-            <h1>Welcome, {{ profile.user.username }}!</h1>
-            <div class="contact-info">
-                <p><strong>Phone Number:</strong> {{ profile.user.phn_number }}</p>
-                <p><strong>Bio:</strong> {{ profile.bio }}</p>
+                <img src="{{ profile.profile_picture.url }}"  alt="Profile" class="profile-image">
+            {% else %}
+                <p class="no-picture">No profile picture uploaded.</p>
+            {% endif %}
+                
+                <h2 class="profile-name">{{ profile.user.first_name }} {{ profile.user.last_name }}</h2>
+                <p class="profile-email">{{ profile.user.email }}</p>
+                <!-- Other profile-related content -->
+            
+            
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="bi bi-twitter"></i></a>
+                </div>
+                <div class="profile-actions mt-3">
+                    <a href="{% url 'update_profile' %}" class="btn btn-outline-primary w-100 mb-2">Edit Profile</a>
+                    <a href="{% url 'upload' %}" class="btn btn-outline-success w-100 mb-2">Create Project</a>
+                    <a href="{% url 'project_list' %}" class="btn btn-outline-success w-100 mb-2">Project</a>
+                    <a href="#" class="btn btn-outline-danger w-100">Delete Account</a>
+                </div>
             </div>
         </div>
 
-        <div class="donations-projects">
-            <h3>Donations and Projects</h3>
-            <br>
+        <!-- Right Side: User Details and Donation History -->
+        <div class="col-md-8 p-5">
+            <div class="user-details">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>First Name</th>
+                            <td>{{ profile.user.first_name }}</td>
+                            <th>Email</th>
+                            <td>{{ profile.user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Last Name</th>
+                            <td>{{ profile.user.last_name }}</td>
+                            <th>Mobile</th>
+                            <td>{{ profile.phn_number }}</td>
+                        </tr>
+                        <tr>
+                            <th>Country</th>
+                            <td><a href="#" class="text-danger">Click to Add</a></td>
+                            <th>Birthday</th>
+                            <td><input type="date" class="form-control"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <!-- Donations Table -->
-            <h4 class="section-title">Donations</h4>
-            <table class="donation-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Donation</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for donation in profile.donations.all %}
+            <div class="mt-4">
+                <h4>Donations</h4>
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td>{{ donation.title }}</td>
-                            <td>{{ donation.amount }}$</td>
-                            <td>{{ donation.created_at|date:"d.m.Y" }}</td>
+                            <th>Title</th>
+                            <th>Donation</th>
+                            <th>Created At</th>
                         </tr>
-                    {% empty %}
+                    </thead>
+                    <tbody>
+                        {% for donation in profile.donations.all %}
+                            <tr>
+                                <td>{{ donation.title }}</td>
+                                <td>{{ donation.amount }}$</td>
+                                <td>{{ donation.created_at|date:"d.m.Y" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="3">No donations made yet.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4">
+                <h4>Projects</h4>
+                <table class="table table-striped">
+                    <thead>
                         <tr>
-                            <td colspan="3">No donations made yet.</td>
+                            <th>Title</th>
+                            <th>Status</th>
+                            <th>Donations Count</th>
+                            <th>Donations Total</th>
+                            <th>Created At</th>
                         </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <br>
-
-            <h4 class="section-title">Projects</h4>
-            <table class="donation-table">
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Status</th>
-                        <th>Donations Count</th>
-                        <th>Donations Total</th>
-                        <th>Created At</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for project in projects %}
-                        <tr>
-                            <td>{{ project.title }}</td>
-                            <td>{{ project.status }}</td>
-                            <td>{{ project.donations_count }}</td>
-                            <td>{{ project.donations_total }}$</td>
-                            <td>{{ project.createdAt|date:"d.m.Y" }}</td>
-                        </tr>
-                    {% empty %}
-                        <tr>
-                            <td colspan="5">No projects created yet.</td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-        <br>
-        <div class="profile-actions">
-            <a href="{% url 'upload' %}" class="btn btn-primary">
-                <i class="fa fa-plus-circle"></i> Create New Project
-            </a>
-            <a href="{% url 'update_profile' %}" class="btn btn-primary">
-                <i class="fa fa-edit"></i> Edit Profile
-            </a>
-            <a href="{% url 'signout' %}" class="btn btn-danger">
-                <i class="fa fa-sign-out-alt"></i> Sign Out
-            </a>
+                    </thead>
+                    <tbody>
+                        {% for project in projects %}
+                            <tr>
+                                <td>{{ project.title }}</td>
+                                <td>{{ project.status }}</td>
+                                <td>{{ project.donations_count }}</td>
+                                <td>{{ project.donations_total }}$</td>
+                                <td>{{ project.createdAt|date:"d.m.Y" }}</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5">No projects created yet.</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- Embedded CSS -->
-<style>
-/* Global styles */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f4f6f7;
-    margin: 0;
-    padding: 0;
-    overflow-y: auto; /* Allows scrolling on the page */
-}
-
-.profile-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    height: 100vh;
-}
-
-.profile-sidebar {
-    width: 300px;
-    background-color: #ffb3b3;
-    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    position: fixed;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.profile-header {
-    text-align: center;
-}
-
-.profile-picture {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-bottom: 15px;
-}
-
-.profile-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.no-picture {
-    font-size: 1rem;
-    color: #888;
-}
-
-.profile-name h2 {
-    margin: 0;
-    font-size: 1.6rem;
-    color: #333;
-}
-
-.profile-name p {
-    font-size: 1rem;
-    color: #666;
-}
-
-.profile-sidebar ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 30px;
-}
-
-.profile-sidebar ul li {
-    width: 100%;
-    padding: 15px;
-    text-align: center;
-    border-top: 1px solid #ddd;
-}
-
-.profile-sidebar ul li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 1.1rem;
-}
-
-.profile-sidebar ul li a:hover,
-.profile-sidebar ul li a.active {
-    color: #fff;
-    background-color: #ff6666;
-    border-radius: 4px;
-}
-
-.profile-main {
-    margin-left: 320px;
-    padding: 20px;
-    width: calc(100% - 320px);
-}
-
-.profile-details h1 {
-    font-size: 2.5rem;
-    color: #333;
-    margin-bottom: 20px;
-}
-
-.contact-info p {
-    font-size: 1.1rem;
-    color: #555;
-}
-
-.donations-projects {
-    margin-top: 30px;
-}
-
-.section-title {
-    font-size: 1.6rem;
-    color: #333;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    border-bottom: 2px solid #ff6666;
-    padding-bottom: 5px;
-}
-
-.donation-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-
-.donation-table th, .donation-table td {
-    padding: 12px;
-    text-align: left;
-    border: 1px solid #ddd;
-    font-size: 1.1rem;
-}
-
-.donation-table th {
-    background-color: #ff6666;
-    color: white;
-}
-
-.profile-actions .btn {
-    padding: 12px 25px;
-    font-size: 1rem;
-    text-decoration: none;
-    border-radius: 5px;
-    margin-right: 10px;
-    transition: all 0.3s ease;
-}
-
-.btn-primary {
-    background-color: #007bff;
-    color: #fff;
-}
-
-.btn-primary:hover {
-    background-color: #0056b3;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    color: #fff;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .profile-container {
-        flex-direction: column;
-    }
-
-    .profile-sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        padding-top: 10px;
-        box-shadow: none;
-    }
-
-    .profile-main {
-        margin-left: 0;
-        width: 100%;
-    }
-
-    .profile-actions .btn {
-        width: 100%;
-        margin-top: 10px;
-    }
-}
-</style>
-
-<!-- Embedded JavaScript -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    // Add a small animation to the profile picture on hover
-    const profileImage = document.querySelector('.profile-image');
-    
-    if (profileImage) {
-        profileImage.addEventListener('mouseenter', () => {
-            profileImage.style.transform = 'scale(1.05)';
-            profileImage.style.transition = 'all 0.3s ease';
-        });
-
-        profileImage.addEventListener('mouseleave', () => {
-            profileImage.style.transform = 'scale(1)';
-        });
-    }
-});
-</script>
 
 {% endblock %}

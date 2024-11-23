@@ -1,8 +1,10 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg bg-light fixed-top shadow">
   <div class="container-fluid">
+    <!-- Navbar Brand -->
     <a class="navbar-brand" href="{% url 'home' %}">Crowdfunding</a>
-    
+
+    <!-- Categories Dropdown -->
     <div class="dropdown">
       <button
         class="btn btn-secondary dropdown-toggle"
@@ -16,11 +18,12 @@
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <li><a class="dropdown-item" href="{% url 'education' %}">Education</a></li>
         <li><a class="dropdown-item" href="{% url 'medical' %}">Medical</a></li>
-        <li><a class="dropdown-item" href="{% url 'bussiness' %}">Business</a></li>
+        <li><a class="dropdown-item" href="{% url 'business' %}">Business</a></li>
         <li><a class="dropdown-item" href="{% url 'disaster' %}">Natural Disaster</a></li>
       </ul>
     </div>
 
+    <!-- Search Form -->
     <form class="d-flex mx-2">
       <input
         class="form-control me-2"
@@ -31,34 +34,44 @@
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
 
+    <!-- Authentication Buttons -->
     <div class="auth-buttons mx-2">
       {% if user.is_authenticated %}
-        <div class="dropdown">
-          <a
-            class="d-flex align-items-center text-decoration-none"
+      <div class="user-dropdown">
+        <img
+          src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}"
+          alt="User Image"
+          class="rounded-circle user-image border border-2 border-white"
+          style="width: 40px; height: 40px;"
+        />
+        <span class="user-name">{{ user.username }}</span>
+        <div class="dropdown d-inline">
+          <button
+            class="btn btn-link dropdown-toggle"
             id="profileDropdown"
+            type="button"
             data-bs-toggle="dropdown"
             aria-expanded="false"
-          >
-            <!-- Apply clickable class to the username -->
-            <span class="nickname text-dark me-2 clickable">{{ user.username }}</span>
-            
-            <!-- Apply clickable class to the profile image -->
-            <img
-              src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}{% static 'images/default.jpg' %}{% endif %}"
-              alt="Profile"
-              class="rounded-circle border border-2 border-white clickable"
-              style="width: 40px; height: 40px;"
-            />
-          </a>
+          
+            <i class="bi bi-chevron-down"></i>
+          </button>
           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
-            <li><a class="dropdown-item" href="{% url 'profile_dashboard' %}"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
-            <li><a class="dropdown-item" href="{% url 'signout' %}"><i class="bi bi-box-arrow-right me-2"></i>Sign Out</a></li>
+            <li>
+              <a class="dropdown-item" href="{% url 'profile_dashboard' %}">
+                <i class="bi bi-person-circle me-2"></i>Profile
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{% url 'signout' %}">
+                <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+              </a>
+            </li>
           </ul>
         </div>
+      </div>
       {% else %}
-        <a href="{% url 'signup' %}" class="auth-link">Sign Up</a>
-        <a href="{% url 'signin' %}" class="auth-link">Sign In</a>
+      <a href="{% url 'signup' %}" class="auth-link">Sign Up</a>
+      <a href="{% url 'signin' %}" class="auth-link">Sign In</a>
       {% endif %}
     </div>
   </div>
