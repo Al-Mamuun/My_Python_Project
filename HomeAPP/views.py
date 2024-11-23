@@ -64,6 +64,12 @@ def upload_project(request):
 @login_required(login_url='signin')  # Redirects to the login page if not logged in
 def update_project(request, id):
     update = get_object_or_404(Project, pk=id)
+    
+    # Check if the logged-in user is the owner of the project
+    if update.owner != request.user:  # Replace `owner` with the field in your Project model that relates to the user
+        messages.error(request, "You are not authorized to update this project.")
+        return redirect('project_list')  # Redirect to an appropriate page, e.g., project list or details
+    
     form = ProjectForm(instance=update)
     if request.method == 'POST':
         form = ProjectForm(request.POST, request.FILES, instance=update)
@@ -73,18 +79,25 @@ def update_project(request, id):
             return redirect('project_list')
         else:
             messages.error(request, "There were errors in the form. Please fix them below.")
+    
     return render(request, 'project/update_project.html', {'form': form})
 
 # Delete Project
 @login_required(login_url='signin')  # Redirects to the login page if not logged in
 def delete_p(request, id):
     project = get_object_or_404(Project, pk=id)
+    
+    # Check if the logged-in user is the owner of the project
+    if project.owner != request.user:  # Replace `owner` with the field in your Project model that relates to the user
+        messages.error(request, "You cannot delete another user's project.")
+        return redirect('project_list')  # Redirect to an appropriate page, e.g., project list or details
+    
     if request.method == 'POST':
         project.delete()
         messages.success(request, "Project deleted successfully!")
         return redirect('project_list')
+    
     return render(request, 'project/delete.html', {'project': project})
-
 
 # Donate to a Project
 def donate_to_project(request, id):
@@ -179,6 +192,7 @@ def signin(request):
 
 
 # User Sign-Up
+
 def signup(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -189,10 +203,12 @@ def signup(request):
         password2 = request.POST.get('password2')
         phn_number = request.POST.get('phn_number')
 
+        # Check if passwords match
         if password1 != password2:
             messages.error(request, "Passwords do not match.")
             return redirect('signup')
 
+        # Check if username already exists
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists.")
             return redirect('signup')
@@ -206,18 +222,20 @@ def signup(request):
             password=password1,
         )
 
-        # Update the profile's phone number
-        user.profile.phn_number = phn_number
-        user.profile.save()
+        # Check if profile already exists
+        if not Profile.objects.filter(user=user).exists():
+            # Create the profile if it doesn't exist
+            profile = Profile.objects.create(user=user, phn_number=phn_number)
 
-        messages.success(request, "Account created successfully!")
+        messages.success(request, "Account created successfully! You are logged in now.")
 
-        # Automatically log in the user and redirect to profile dashboard
+        # Log the user in automatically
         auth_login(request, user)
+
+        # Redirect the user to the profile page or dashboard
         return redirect('signin')
 
     return render(request, "signup/signup.html")
-
 
 
 
@@ -250,14 +268,13 @@ def signout(request):
 @login_required
 def update_profile(request):
     try:
-        profile = request.user.profile  # Get the user's profile (assuming a one-to-one relationship)
+        profile = request.user.profile  # Get the user's profile
     except Profile.DoesNotExist:
-        # If the user does not have a profile, redirect to profile creation
+        # If the profile does not exist, redirect to profile creation
         messages.error(request, "Profile does not exist. Please create a profile first.")
-        return redirect('signup')  # or redirect to profile creation page if necessary
+        return redirect('signup')  # or a profile creation view if needed
 
     if request.method == "POST":
-        # Bind the form with the POST data and files (for image uploads)
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()  # Save the updated profile
@@ -266,7 +283,6 @@ def update_profile(request):
         else:
             messages.error(request, "There was an error updating your profile.")
     else:
-        # If the request method is GET, just prepopulate the form with the current profile instance
         form = ProfileForm(instance=profile)
 
     return render(request, "profile/update_profile.html", {"form": form})
