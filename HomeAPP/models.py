@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)  # Make user nullable
+    user = models.OneToOneField(User, on_delete=models.CASCADE)  # Make user nullable
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True,default='profile_pictures/profile.jpg')
     phn_number = models.CharField(max_length=15, blank=True, null=True)
@@ -24,6 +24,7 @@ class Project(models.Model):
     status = models.CharField(max_length=50)
     image = models.ImageField(upload_to='Projectlist', default='Projectlist/donation.jpeg')
     profile = models.ForeignKey(Profile, related_name='projects', on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)  # Owner field
 
     def __str__(self):
         return self.title
