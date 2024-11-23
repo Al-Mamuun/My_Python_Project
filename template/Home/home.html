@@ -6,32 +6,32 @@
     overflow-y: auto !important;
   }
 
-/* Hero Section Styling */
-.hero-section {
-  position: relative;
-  width: 100%;
-  height: 80vh; /* 50% of the viewport height */
-  overflow: hidden;
-}
+  /* Hero Section Styling */
+  .hero-section {
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    overflow: hidden;
+  }
 
-.hero-image {
-  background-image: url("{% static 'images/donation.jpeg' %}"); /* Corrected path */
-  background-size: cover;
-  background-position: center;
-  width: 100%;
-  height: 100%;
-  position: absolute; /* Ensure the image takes full height */
-  top: 0;
-  left: 0;
-}
+  .hero-image {
+    background-image: url("{% static 'images/donation.jpeg' %}");
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-attachment: fixed; /* Parallax effect */
+  }
 
-  /* Overlay text styling */
   .overlay-text {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+    background-color: rgba(0, 0, 0, 0.5);
     text-align: center;
     padding: 20px;
     border-radius: 8px;
@@ -42,6 +42,7 @@
     font-weight: bold;
     margin-bottom: 0.5rem;
     color: #fff;
+    animation: fadeInDown 1.5s;
   }
 
   .overlay-text .donation {
@@ -54,7 +55,9 @@
     cursor: pointer;
     text-decoration: none;
     font-weight: bold;
+    animation: pulse 1.5s infinite;
   }
+
   .donation p {
     margin-top: 10px;
     color: black !important;
@@ -72,17 +75,7 @@
     transition: transform 0.3s, box-shadow 0.3s;
   }
 
-  .btn-gradient:hover {
-    transform: scale(1.1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  }
-
-  /* Smooth scroll */
-  html {
-    scroll-behavior: smooth;
-  }
-
- /* Ensure the modal appears on top */
+   /* Ensure the modal appears on top */
 .modal {
   display: none; /* Hidden by default */
   position: fixed;
@@ -107,53 +100,42 @@
   z-index: 10000; /* Ensure modal content stays above any other content */
 }
 
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+  .btn-gradient:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
 
-  .close:hover,
-  .close:focus {
-    color: black;
+  .card:hover {
+    transform: translateY(-10px);
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  }
+
+  .stats-section .stat-item i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+  }
+
+  footer {
+    background: linear-gradient(to right, #222, #333);
+  }
+
+  footer h5 {
+    color: #ff7ce2;
+  }
+
+  footer a {
     text-decoration: none;
-    cursor: pointer;
+    transition: color 0.3s ease;
   }
-  /* Footer */
-footer {
-  background-color: #333;
-}
 
-footer h5 {
-  color: #ff7ce2;
-}
+  footer a:hover {
+    color: #ff7ce2;
+  }
 
-footer a {
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-footer a:hover {
-  color: #ff7ce2;
-}
-
-footer .social-links a {
-  font-size: 1.5rem;
-}
-
-footer .social-links a:hover {
-  color: #ff7ce2;
-}
-
-footer .text-white {
-  color: #fff !important;
-}
-
-footer .my-4 {
-  border-color: #ff7ce2;
-}
-
+  footer .social-links a {
+    font-size: 1.5rem;
+  }
 </style>
 
 <!-- Hero Section -->
@@ -170,30 +152,28 @@ footer .my-4 {
 <div class="stats-section py-5 bg-light">
   <div class="container">
     <div class="row text-center">
-      <!-- Stat 1 -->
       <div class="col-md-4 mb-4">
         <div class="stat-item p-4 bg-white rounded shadow-sm h-100">
-          <h2 class="display-5 text-primary">1000+</h2>
+          <i class="bi bi-people display-5 text-primary"></i>
+          <h2 class="display-5 text-primary mt-3">1000+</h2>
           <p class="fs-5 fw-bold">Donors</p>
-          <span class="text-muted">Everyone is welcome to donate</span>
+          <span class="text-muted">Everyone is welcome to donate.</span>
         </div>
       </div>
-
-      <!-- Stat 2 -->
       <div class="col-md-4 mb-4">
         <div class="stat-item p-4 bg-white rounded shadow-sm h-100">
-          <h2 class="display-5 text-primary">240+</h2>
+          <i class="bi bi-box-seam display-5 text-primary"></i>
+          <h2 class="display-5 text-primary mt-3">240+</h2>
           <p class="fs-5 fw-bold">Projects</p>
-          <span class="text-muted">Various projects waiting for your help</span>
+          <span class="text-muted">Various projects waiting for your help.</span>
         </div>
       </div>
-
-      <!-- Stat 3 -->
       <div class="col-md-4 mb-4">
         <div class="stat-item p-4 bg-white rounded shadow-sm h-100">
-          <h2 class="display-5 text-primary">150+</h2>
+          <i class="bi bi-star display-5 text-primary"></i>
+          <h2 class="display-5 text-primary mt-3">150+</h2>
           <p class="fs-5 fw-bold">Reviews</p>
-          <span class="text-muted">Feel free to give reviews</span>
+          <span class="text-muted">Feel free to give reviews.</span>
         </div>
       </div>
     </div>
@@ -204,50 +184,31 @@ footer .my-4 {
 <div class="container my-5">
   <h3 class="text-center mb-4">Featured Projects</h3>
   <div class="row g-4">
-    <!-- Card 1 -->
-    <div class="col-md-6 col-lg-6">
+    <div class="col-md-6">
       <div class="card bg-warning text-white p-4 h-100">
         <div class="card-body">
           <h4 class="card-title">Latest Projects</h4>
           <ul class="list-unstyled">
-            <li class="d-flex align-items-center mb-2">
-              <span class="me-2">&#x1F331;</span> Plant a Tree
-            </li>
-            <li class="d-flex align-items-center mb-2">
-              <span class="me-2">&#x1F431;</span> Support Stray Animals
-            </li>
-            <li class="d-flex align-items-center mb-2">
-              <span class="me-2">&#x1F489;</span> Cancer Patient Support
-            </li>
-            <li class="d-flex align-items-center mb-2">
-              <span class="me-2">&#x1F3E0;</span> Build a House
-            </li>
+            <li>Plant a Tree</li>
+            <li>Support Stray Animals</li>
+            <li>Cancer Patient Support</li>
+            <li>Build a House</li>
           </ul>
-          <a href="{% url 'project_list' %}" class="btn btn-light mt-3">See all</a>
+          <a href="{% url 'project_list' %}" class="btn btn-light mt-3">See All</a>
         </div>
       </div>
     </div>
-
-    <!-- Card 2 -->
-    <div class="col-md-6 col-lg-6">
+    <div class="col-md-6">
       <div class="card bg-danger text-white p-4 h-100">
         <div class="card-body">
           <h4 class="card-title">Featured Project</h4>
           <ul class="list-unstyled">
-            <li class="d-flex align-items-center mb-2">
-              <span class="me-2">&#x1F4B0;</span> Donate Supplies
-            </li>
-            <li class="d-flex align-items-center mb-2">
-              <span class="me-2">&#x1F91D;</span> Volunteer for Events
-            </li>
-            <li class="d-flex align-items-center mb-2">
-              <span class="me-2">&#x1F9D1;&#x200D;&#x1F393;</span> Mentorship Programs
-            </li>
-            <li class="d-flex align-items-center mb-2">
-              <span class="me-2">&#x1F6E2;</span> Community Clean-up
-            </li>
+            <li>Donate Supplies</li>
+            <li>Volunteer for Events</li>
+            <li>Mentorship Programs</li>
+            <li>Community Clean-up</li>
           </ul>
-          <a href="{% url 'feature_projects' %}" class="btn btn-light mt-3">See all</a>
+          <a href="{% url 'feature_projects' %}" class="btn btn-light mt-3">See All</a>
         </div>
       </div>
     </div>
@@ -259,52 +220,35 @@ footer .my-4 {
   <a href="{% url 'upload' %}" class="btn btn-gradient">Create your own Project</a>
 </div>
 
-<!-- Footer Section -->
-<footer class="bg-dark text-white py-5 mt-auto">
+<!-- Footer -->
+<footer class="bg-gradient text-white py-5">
   <div class="container">
-    <div class="row text-center text-md-start">
-      <!-- About Us Section -->
-      <div class="col-md-4 mb-4">
-        <h5 class="text-uppercase font-weight-bold mb-3">About Us</h5>
-        <p>We are a crowdfunding platform dedicated to making a positive impact. Join us in supporting those in need by donating, volunteering, or creating your own project.</p>
+    <div class="row text-center text-md-start align-items-center">
+      <div class="col-md-4">
+        <h5>About Us</h5>
+        <p>Empowering communities through crowdfunding. Start your journey today!</p>
+        <a href="{% url 'upload' %}" class="btn btn-light btn-sm mt-3">Start a Campaign</a>
       </div>
-
-      <!-- Quick Links Section -->
-      <div class="col-md-4 mb-4">
-        <h5 class="text-uppercase font-weight-bold mb-3">Quick Links</h5>
-        <ul class="list-unstyled">
-          <li><a href="{% url 'home' %}" class="text-white">Home</a></li>
-          <li><a href="{% url 'education' %}" class="text-white">Education</a></li>
-          <li><a href="{% url 'medical' %}" class="text-white">Medical</a></li>
-          <li><a href="{% url 'bussiness' %}" class="text-white">Business</a></li>
-          <li><a href="{% url 'upload' %}" class="text-white">Create Project</a></li>
+      <div class="col-md-4">
+        <h5>Quick Links</h5>
+        <ul>
+          <li><a href="{% url 'home' %}">Home</a></li>
+          <li><a href="{% url 'education' %}">Education</a></li>
+          <li><a href="{% url 'medical' %}">Medical</a></li>
+          <li><a href="{% url 'bussiness' %}">Business</a></li>
         </ul>
       </div>
-
-      <!-- Contact Us Section -->
-      <div class="col-md-4 mb-4">
-        <h5 class="text-uppercase font-weight-bold mb-3">Contact Us</h5>
-        <p>Email: <a href="mailto:almamun112020@gmail.com" class="text-white">almamun112020@gmail.com</a></p>
-        <p>Phone: <a href="tel:+8801845196403" class="text-white">+88 01845196403</a></p>
-        <div class="social-links mt-3">
-          <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
-          <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
-        </div>
+      <div class="col-md-4">
+        <h5>Contact Us</h5>
+        <p>Email: <a href="mailto:almamun112020@gmail.com">almamun112020@gmail.com</a></p>
+        <p>Phone: <a href="tel:+8801845196403">+88 01845196403</a></p>
       </div>
     </div>
+    <hr />
+    <p class="text-center mb-0">© 2024 Crowdfunding Platform. All Rights Reserved.Made with <span class="text-danger">&hearts;</span> by the Intelligence Hub</p>
 
-    <hr class="my-4 text-white" />
-
-    <div class="row">
-      <div class="col text-center">
-        <p class="mb-0">&copy; 2024 Crowdfunding Platform. All rights reserved.</p>
-        <p>Made with <span class="text-danger">&hearts;</span> by the Intelligence Hub</p>
-      </div>
-    </div>
   </div>
 </footer>
-
 
 <!-- Modal -->
 <div id="donationModal" class="modal">
@@ -319,23 +263,19 @@ footer .my-4 {
 </div>
 
 <script>
-  // Get modal elements
   var modal = document.getElementById("donationModal");
   var btn = document.getElementById("donateBtn");
   var closeBtn = document.querySelector(".close");
 
-  // Show modal
-  btn.onclick = function() {
+  btn.onclick = function () {
     modal.style.display = "block";
   };
 
-  // Close modal
-  closeBtn.onclick = function() {
+  closeBtn.onclick = function () {
     modal.style.display = "none";
   };
 
-  // Close modal when clicking outside
-  window.onclick = function(event) {
+  window.onclick = function (event) {
     if (event.target == modal) {
       modal.style.display = "none";
     }
