@@ -16,11 +16,28 @@
         Categories
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <li><a class="dropdown-item" href="{% url 'education' %}">Education</a></li>
-        <li><a class="dropdown-item" href="{% url 'medical' %}">Medical</a></li>
-        <li><a class="dropdown-item" href="{% url 'business' %}">Business</a></li>
-        <li><a class="dropdown-item" href="{% url 'disaster' %}">Natural Disaster</a></li>
+        <li>
+          <a class="dropdown-item" href="{% url 'education' %}">
+            <i class="bi bi-book me-2"></i> Education
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'medical' %}">
+            <i class="bi bi-heart-pulse me-2"></i> Medical
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'business' %}">
+            <i class="bi bi-briefcase me-2"></i> Business
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'disaster' %}">
+            <i class="bi bi-cloud-lightning me-2"></i> Natural Disaster
+          </a>
+        </li>
       </ul>
+      
     </div>
 
     <!-- Search Form -->

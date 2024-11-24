@@ -26,6 +26,36 @@
     background-attachment: fixed; /* Parallax effect */
   }
 
+   /* Stats Section */
+   .stats-section {
+    padding: 50px 0;
+    background-color: #f8f9fa;
+  }
+
+  .stats-section .stat-item {
+    padding: 30px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+  }
+
+  .stats-section .stat-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+  }
+
+  .stats-section .stat-item i {
+    font-size: 3rem;
+    color: #007bff;
+    margin-bottom: 15px;
+  }
+
+  .stats-section .stat-item h2 {
+    font-size: 2rem;
+    color: #333;
+  }
+
   .overlay-text {
     position: absolute;
     top: 50%;
@@ -128,6 +158,23 @@
     }
   }
 
+/* Deeper green for Latest Project */
+.card.bg-danger {
+  background-color: #b2d8b2 !important; /* Medium green */
+  color: #000000; /* Black text */
+}
+
+/* Deeper blue for Featured Projects */
+.card.bg-warning {
+  background-color: #a8d1f0 !important; /* Medium blue */
+  color: #000000; /* Black text */
+}
+
+/* Specific for text inside Featured and Latest Project cards */
+.card.bg-danger .card-body,
+.card.bg-warning .card-body {
+  color: #000000; /* Ensure text is black */
+}
   .donation:active {
     animation: pulse 0.5s; /* Pulse effect when clicked */
   }
@@ -137,50 +184,46 @@
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
 
+  /* Cards */
+  .card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
   .card:hover {
-    transform: translateY(-10px);
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
   }
 
-  .stats-section .stat-item i {
-    font-size: 3rem;
-    margin-bottom: 15px;
-  }
-
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 30px;
-    font-weight: bold;
-  }
-
-  .close:hover,
-  .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-  }
-
+  /* Footer */
   footer {
-    background: linear-gradient(to right, #222, #333);
+    background-color: #333;
+    color: #fff;
+    padding: 40px 0;
   }
 
   footer h5 {
-    color: #ff7ce2;
+    color: #007bff;
+    font-weight: 700;
+    margin-bottom: 1rem;
   }
 
   footer a {
+    color: #ddd;
     text-decoration: none;
     transition: color 0.3s ease;
   }
 
   footer a:hover {
-    color: #ff7ce2;
+    color: #007bff;
   }
 
-  footer .social-links a {
-    font-size: 1.5rem;
+  footer p {
+    margin-top: 20px;
+    font-size: 0.9rem;
   }
 </style>
 
@@ -228,33 +271,67 @@
 
 <!-- Featured Projects Section -->
 <div class="container my-5">
-  <h3 class="text-center mb-4">Featured Projects</h3>
+  <h3 class="text-center mb-4"> <strong> Our Projects</strong></h3>
   <div class="row g-4">
-    <div class="col-md-6">
-      <div class="card bg-warning text-white p-4 h-100">
+    <!-- Card 2 -->
+    <div class="col-md-6 col-lg-6">
+      <div class="card bg-danger text-white p-4 h-100">
         <div class="card-body">
-          <h4 class="card-title">Latest Projects</h4>
+          <h4 class="card-title">Latest Project</h4>
           <ul class="list-unstyled">
-            <li>Plant a Tree</li>
-            <li>Support Stray Animals</li>
-            <li>Cancer Patient Support</li>
-            <li>Build a House</li>
+            <li class="d-flex align-items-center mb-2">
+              <span class="me-2">&#x1F4B0;</span>
+              <!-- Money bag emoji icon -->
+              Donate Supplies
+            </li>
+            <li class="d-flex align-items-center mb-2">
+              <span class="me-2">&#x1F91D;</span>
+              <!-- Handshake emoji icon -->
+              Volunteer for Events
+            </li>
+            <li class="d-flex align-items-center mb-2">
+              <span class="me-2">&#x1F9D1;&#x200D;&#x1F393;</span>
+              <!-- Student emoji icon -->
+              Mentorship Programs
+            </li>
+            <li class="d-flex align-items-center mb-2">
+              <span class="me-2">&#x1F6E2;</span>
+              <!-- Mop emoji icon -->
+              Community Clean-up
+            </li>
           </ul>
-          <a href="{% url 'project_list' %}" class="btn btn-light mt-3">See All</a>
+          <a href="{% url 'project_list' %}" class="btn btn-light mt-3">See all</a>
         </div>
       </div>
     </div>
-    <div class="col-md-6">
-      <div class="card bg-danger text-white p-4 h-100">
+    <!-- Card 1 -->
+    <div class="col-md-6 col-lg-6">
+      <div class="card bg-warning text-white p-4 h-100">
         <div class="card-body">
-          <h4 class="card-title">Featured Project</h4>
+          <h4 class="card-title">Featured Projects</h4>
           <ul class="list-unstyled">
-            <li>Donate Supplies</li>
-            <li>Volunteer for Events</li>
-            <li>Mentorship Programs</li>
-            <li>Community Clean-up</li>
+            <li class="d-flex align-items-center mb-2">
+              <span class="me-2">&#x1F331;</span>
+              <!-- Seedling emoji icon -->
+              Plant a Tree
+            </li>
+            <li class="d-flex align-items-center mb-2">
+              <span class="me-2">&#x1F431;</span>
+              <!-- Cat emoji icon -->
+              Support Stray Animals
+            </li>
+            <li class="d-flex align-items-center mb-2">
+              <span class="me-2">&#x1F489;</span>
+              <!-- Syringe emoji icon -->
+              Cancer Patient Support
+            </li>
+            <li class="d-flex align-items-center mb-2">
+              <span class="me-2">&#x1F3E0;</span>
+              <!-- House emoji icon -->
+              Build a House
+            </li>
           </ul>
-          <a href="{% url 'feature_projects' %}" class="btn btn-light mt-3">See All</a>
+          <a href="{% url 'feature_projects' %}" class="btn btn-light mt-3">See all</a>
         </div>
       </div>
     </div>
