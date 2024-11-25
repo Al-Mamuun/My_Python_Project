@@ -2,12 +2,14 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE,default='')  # Make user nullable
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pictures/', blank=True, null=True,default='profile_pictures/profile.jpg')
     phn_number = models.CharField(max_length=15, blank=True, null=True)
+    birth_date = models.DateField(blank=True, null=True)  
+    country = models.CharField(max_length=100, blank=True, null=True) 
     created_at = models.DateTimeField(auto_now_add=True)
-    is_signup_user = models.BooleanField(default=False)  # New field to identify sign-up users
+    is_signup_user = models.BooleanField(default=False) 
 
     def __str__(self):
         # Safely access the username or return a fallback value
@@ -23,7 +25,7 @@ class Project(models.Model):
     endDate = models.DateField()
     image = models.ImageField(upload_to='projects/', default='projects/default.jpg')
     profile = models.ForeignKey(Profile, related_name='projects', on_delete=models.CASCADE)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)  # Ensure default=None works correctly for the owner field
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     status_choices = (
         ('OnGoing', 'On Going'),
         ('Coming Soon', 'Coming Soon'),

@@ -185,24 +185,41 @@ def signup(request):
         password1 = request.POST.get('password1')
         password2 = request.POST.get('password2')
         phn_number = request.POST.get('phn_number')
-        
+
+        # Validate passwords
         if password1 != password2:
             messages.error(request, "Passwords do not match.")
             return redirect('signup')
-        
+
+        # Check for duplicate username
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists.")
             return redirect('signup')
-        
-        user = User.objects.create_user(username=username, first_name=first_name, last_name=last_name, email=email, password=password1)
-        
-        if not Profile.objects.filter(user=user).exists():
-            Profile.objects.create(user=user, phn_number=phn_number)
-        
+
+        # Check for duplicate email
+        if User.objects.filter(email=email).exists():
+            messages.error(request, "An account with this email already exists.")
+            return redirect('signup')
+
+        # Create the user
+        user = User.objects.create_user(
+            username=username,
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            password=password1
+        )
+
+        # Create or link the profile
+        profile, created = Profile.objects.get_or_create(user=user)
+        profile.phn_number = phn_number
+        profile.save()
+
+        # Log the user in
         messages.success(request, "Account created successfully!")
         auth_login(request, user)
         return redirect('signin')
-    
+
     return render(request, "signup/signup.html")
 
 
@@ -219,7 +236,34 @@ def profile_dashboard(request):
     
     return render(request, "profile/profile.html", {"profile": profile, "projects": projects})
 
-
+@login_required
+def delete_profile(request):
+    print(f"Request method: {request.method}")  # Debugging line
+    if request.method == "POST":
+        try:
+            user = request.user
+            print(f"User: {user}")  # Debugging line
+            
+            # Deleting the user
+            user.delete()
+            print("User deleted successfully")  # Debugging line
+            
+            # Log out the user after account deletion
+            logout(request)
+            
+            # Provide success message
+            messages.success(request, "Your account has been deleted successfully.")
+            
+            # Redirect to the signup page or homepage
+            return redirect("signup")
+        except Exception as e:
+            print(f"Error deleting profile: {e}")  # Debugging line
+            messages.error(request, "An error occurred while trying to delete your account.")
+            return redirect("profile_dashboard")
+    else:
+        print("Invalid request method.")  # Debugging line
+        messages.error(request, "Invalid request method.")
+        return redirect("profile_dashboard")
 # User Sign-Out
 def signout(request):
     logout(request)
@@ -256,3 +300,5 @@ def update_profile(request):
 # Thank You Page
 def thank_you(request):
     return render(request, 'home/thank_you.html')
+
+

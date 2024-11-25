@@ -17,8 +17,9 @@ urlpatterns = [
     path('projects/<int:id>/comment/', views.comment_on_project, name='comment_on_project'),
     path('projects/<int:id>/rate/', views.rate_project, name='rate_project'),
     path('profile/', views.profile_dashboard, name='profile_dashboard'),
-    path('signout/', views.signout, name='signout'),  # Add this line
-    path('profile/update/', views.update_profile, name='update_profile'),  # Add this line
+    path('signout/', views.signout, name='signout'),  
+    path('profile/update/', views.update_profile, name='update_profile'),  
     path('thank-you/', views.thank_you, name='thank_you'),
+    path("profile/delete/", views.delete_profile, name="delete_profile"),
      
 ]

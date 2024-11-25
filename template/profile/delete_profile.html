@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<form method="POST" action="{% url 'delete_profile' %}">
+    {% csrf_token %}
+    <p>Are you sure you want to delete your account? This action cannot be undone.</p>
+    <button type="submit" class="btn btn-danger">Delete Account</button>
+</form>
+
+
+
+{% endblock %}
