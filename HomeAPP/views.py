@@ -302,3 +302,7 @@ def thank_you(request):
     return render(request, 'home/thank_you.html')
 
 
+def search_projects(request):
+    query = request.GET.get('query', '')
+    projects = Project.objects.filter(title__icontains=query) | Project.objects.filter(description__icontains=query) if query else []
+    return render(request, 'Home/search.html', {'projects': projects, 'query': query})

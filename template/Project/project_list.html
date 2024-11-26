@@ -3,74 +3,75 @@
 {% block title %}Project List{% endblock %}
 
 {% block content %}
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #333;
-            text-align: center;
-            overflow: hidden;
-        }
-        .container{
-            margin-top: 100px;
-        }
+   
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        text-align: center;
+        overflow-y: auto; /* Allows scrolling on the page */
+    }
+    .container {
+        margin-top: 100px;
+    }
 
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
+    h2 {
+        color: #333;
+        margin-bottom: 20px;
+    }
 
-        .project-container {
-            max-height: 70vh; /* Limit the height to make it scrollable */
-            overflow-y: auto; /* Add vertical scrolling */
-            padding: 0 10px;
-        }
+    .project-container {
+        max-height: 70vh; /* Limit the height to make it scrollable */
+        overflow-y: auto; /* Add vertical scrolling */
+        padding: 0 10px;
+    }
 
-        ul {
-            list-style-type: none;
-            padding: 0;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        max-width: 600px;
+        margin: 0 auto;
+    }
 
-        li {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
-        }
+    /* Specific styles for the list items */
+    ul li.List {
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s;
+    }
 
-        li:hover {
-            transform: scale(1.02);
-        }
+    ul li.List:hover {
+        transform: scale(1.02);
+    }
 
-        .no-projects {
-            color: #777;
-            font-style: italic;
-        }
+    .no-projects {
+        color: #777;
+        font-style: italic;
+    }
 
-        .project-image {
-            max-width: 200px;
-            height: auto;
-            margin-bottom: 10px;
-        }
+    .project-image {
+        max-width: 200px;
+        height: auto;
+        margin-bottom: 10px;
+    }
 
-        .project-details {
-            text-align: left;
-            font-size: 16px;
-        }
-    </style>
-
+    .project-details {
+        text-align: left;
+        font-size: 16px;
+    }
+</style>
 
 <div class="container">
     <h2>PROJECTS</h2>
     <div class="project-container">
         <ul>
             {% for project in projects %}
-                <li>
+                <li class="List"> <!-- Ensure 'List' class is applied -->
                     <img src="{{ project.image.url }}" alt="PROJECT" class="project-image">
                     <div class="project-details">
                         <strong>
@@ -89,5 +90,4 @@
     </div>
 </div>
 
-    
 {% endblock %}

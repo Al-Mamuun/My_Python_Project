@@ -7,8 +7,8 @@
     
     <!-- Left Side: Sign-In Form -->
     <div class="col-md-6 p-5">
-      <h2>Sign In</h2>
-      <p>Enter your credentials to log in.</p>
+      <h2 class="text-center mb-4">Sign In</h2>
+      <p class="text-center mb-4">Enter your credentials to log in.</p>
 
       <!-- Display error or success messages -->
       {% if messages %}
@@ -61,13 +61,37 @@
         </div>
         
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary w-100">
+        <button type="submit" class="btn btn-primary w-100 mb-3">
           Sign In
         </button>
       </form>
 
+      <!-- Social Media Links -->
+      <div class="d-flex justify-content-center mb-3">
+        <!-- Facebook Icon -->
+        <a href="https://www.facebook.com" class="btn btn-outline-primary mx-2" aria-label="Facebook" target="_blank">
+            <i class="fab fa-facebook-f"></i> <!-- Facebook Logo -->
+        </a>
+    
+        <!-- Instagram Icon -->
+        <a href="https://www.instagram.com" class="btn btn-outline-danger mx-2" aria-label="Instagram" target="_blank">
+            <i class="fab fa-instagram"></i> <!-- Instagram Logo -->
+        </a>
+    
+        <!-- Twitter Icon -->
+        <a href="https://twitter.com" class="btn btn-outline-info mx-2" aria-label="Twitter" target="_blank">
+            <i class="fab fa-twitter"></i> <!-- Twitter Logo -->
+        </a>
+    
+        <!-- Google Icon -->
+        <a href="https://www.google.com" class="btn btn-outline-dark mx-2" aria-label="Google" target="_blank">
+            <i class="fab fa-google"></i> <!-- Google Logo -->
+        </a>
+    </div>
+    
+
       <!-- Additional Links -->
-      <div class="mt-3">
+      <div class="text-center mt-3">
         <p>
           Don’t have an account?
           <a href="{% url 'signup' %}" class="text-primary">Sign Up</a>

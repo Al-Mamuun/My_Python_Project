@@ -4,36 +4,41 @@
   /* Thank You Container Styling */
   .thank-you-container {
     margin-top: 10vh;
-    padding: 50px;
+    padding: 40px;
     text-align: center;
     color: white;
-    background: linear-gradient(to right, #28a745, #ff7ce2);
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(to right, #ff7ce2, #28a745);
+    border-radius: 20px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
     position: relative;
     overflow: hidden;
+    max-width: 80%; /* Limit the width to make it smaller */
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .thank-you-container h1 {
-    font-size: 3.5rem;
+    font-size: 2.5rem;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 3px;
-    margin-bottom: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
     color: #fff;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .thank-you-container p {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     color: #f4f4f4;
+    line-height: 1.5;
   }
 
   .celebration-icon {
-    font-size: 6rem;
+    font-size: 5rem;
     color: #ffcc00;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     animation: bounce 1.5s ease-in-out infinite;
   }
 
@@ -43,7 +48,7 @@
       transform: translateY(0);
     }
     50% {
-      transform: translateY(-20px);
+      transform: translateY(-15px);
     }
   }
 
@@ -51,18 +56,19 @@
   .btn-celebrate {
     background: #ff7ce2;
     color: #fff;
-    font-size: 1.25rem;
+    font-size: 1.15rem;
     font-weight: bold;
-    padding: 18px 40px;
+    padding: 15px 30px;
     border-radius: 50px;
     text-transform: uppercase;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.3s, box-shadow 0.3s;
   }
 
   .btn-celebrate:hover {
-    transform: scale(1.1);
-    box-shadow: 0 10px 30px rgba(255, 124, 226, 0.6);
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(255, 124, 226, 0.6);
+    background-color: #ff6490;
   }
 
   /* Confetti effect for celebration */
@@ -95,11 +101,18 @@
 
   /* Footer styling */
   .footer-message {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     margin-top: 2rem;
     font-weight: 600;
     color: #f4f4f4;
+    opacity: 0.8;
   }
+
+  .footer-message span {
+    font-weight: 700;
+    color: #ff7ce2;
+  }
+
 </style>
 
 <!-- Thank You Page Content -->
@@ -111,9 +124,9 @@
     <h1>You're Amazing!</h1>
     <p>Thank you for your incredible generosity. Your donation will make a huge impact in the lives of those who need it most. Together, we are making the world a better place.</p>
     
-    <a href="{% url 'home' %}" class="btn btn-celebrate">Return to Home</a>
+    <a href="{% url 'home' %}" class="btn-celebrate">Return to Home</a>
 
-    <p class="footer-message">With gratitude from our team at Intelligence Hub. 💚</p>
+    <p class="footer-message">With gratitude from our team at <span>Intelligence Hub</span>. 💚</p>
   </div>
 </div>
 
