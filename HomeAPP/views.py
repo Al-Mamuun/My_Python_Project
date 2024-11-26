@@ -60,14 +60,17 @@ def upload_project(request):
 
     return render(request, 'project/upload_project.html', {'form': form})
 
+# Check if the user is an admin
+def is_admin(user):
+    return user.is_staff  # Checks if the user is an admin
 
 # Update Existing Project
 @login_required(login_url='signin')
 def update_project(request, id):
     project = get_object_or_404(Project, pk=id)
     
-    # Ensure user is the project owner
-    if project.owner != request.user:
+    # Ensure user is either the project owner or an admin
+    if project.owner != request.user and not request.user.is_staff:
         messages.error(request, "You are not authorized to update this project.")
         return redirect('project_list')
     
@@ -84,13 +87,14 @@ def update_project(request, id):
     return render(request, 'project/update_project.html', {'form': form})
 
 
+
 # Delete Project
 @login_required(login_url='signin')
 def delete_p(request, id):
     project = get_object_or_404(Project, pk=id)
     
-    # Ensure user is the project owner
-    if project.owner != request.user:
+    # Ensure user is either the project owner or an admin
+    if project.owner != request.user and not request.user.is_staff:
         messages.error(request, "You cannot delete another user's project.")
         return redirect('project_list')
     
@@ -100,6 +104,7 @@ def delete_p(request, id):
         return redirect('project_list')
     
     return render(request, 'project/delete.html', {'project': project})
+
 
 
 # Donate to a Project
@@ -161,19 +166,31 @@ def signin(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
-        
+
         if user:
             auth_login(request, user)
+            
+            # Set session expiry based on "Remember Me"
             if 'rememberMe' in request.POST:
                 request.session.set_expiry(1209600)  # 2 weeks session
-            messages.success(request, f"Welcome, {username}!")
-            return redirect('profile_dashboard')
+            else:
+                request.session.set_expiry(0)  # Browser close ends session
+            
+            # Check if user is admin or regular user
+            if user.is_staff or user.is_superuser:
+                # Admin user (has access to Django admin panel)
+                messages.success(request, f"Welcome, Admin {username}!")
+                return redirect('/admin/')  # Redirect to Django admin panel
+            else:
+                # Regular user
+                messages.success(request, f"Welcome, {username}!")
+                return redirect('profile_dashboard')  # Redirect to regular user dashboard
+
         else:
             messages.error(request, "Invalid username or password.")
             return redirect('signin')
     
     return render(request, "SignIn/signin.html")
-
 
 # User Sign-Up
 def signup(request):
@@ -264,12 +281,24 @@ def delete_profile(request):
         print("Invalid request method.")  # Debugging line
         messages.error(request, "Invalid request method.")
         return redirect("profile_dashboard")
+    
 # User Sign-Out
 def signout(request):
-    logout(request)
-    messages.success(request, "You have been logged out successfully.")
-    return redirect('signin')
-
+    if request.user.is_authenticated:
+        # Check if the user is an admin (staff or superuser)
+        if request.user.is_staff or request.user.is_superuser:
+            # Admin user logs out
+            messages.success(request, "You have been logged out successfully, Admin!")
+            logout(request)  # Log out the admin
+            return redirect('home')  # Redirect to home page for admin
+        else:
+            # Regular user logs out
+            messages.success(request, "You have been logged out successfully.")
+            logout(request)  # Log out the regular user
+            return redirect('signin')  # Redirect to sign-in page for regular user
+    else:
+        # If the user is not authenticated, redirect to sign-in page
+        return redirect('signin')
 
 # Update Profile
 @login_required
