@@ -190,23 +190,101 @@ p {
 <!-- Rating Section -->
 <div class="card-container">
     <h3>Rate this Project</h3>
-    <form method="post" action="{% url 'rate_project' project.id %}">
+    <form method="post" action="{% url 'rate_project' project.id %}" id="rating-form">
         {% csrf_token %}
-        <input type="number" name="stars" min="1" max="5" placeholder="Rate (1-5 stars)" required>
-        <button type="submit">Rate</button>
+        <div id="stars" class="stars-container">
+            <!-- Star Icons -->
+            <span data-value="1" class="star">★</span>
+            <span data-value="2" class="star">★</span>
+            <span data-value="3" class="star">★</span>
+            <span data-value="4" class="star">★</span>
+            <span data-value="5" class="star">★</span>
+        </div>
+        <!-- Hidden Input to Store Selected Rating -->
+        <input type="hidden" name="stars" id="rating-input" required>
+        <button type="submit" class="btn btn-warning mt-3">Submit Rating</button>
     </form>
-    <div class="rating-list-title"><strong>Ratings:</strong></div>
-    <ul>
+    <ul class="mt-3">
         {% for rating in project.rating_set.all %}
-        <li>
-            <strong>{{ rating.user.username }}</strong> rated {{ rating.stars }} stars
-        </li>
+        <li><strong>{{ rating.user.username }}</strong> rated {{ rating.stars }} stars</li>
         {% endfor %}
     </ul>
 </div>
 
+<style>
+    .stars-container {
+        display: flex;
+        justify-content: center;
+        gap: 5px;
+        font-size: 32px;
+        cursor: pointer;
+    }
 
+    .star {
+        color: #ccc; /* Default color for stars */
+        transition: color 0.3s ease;
+    }
 
+    .star.selected {
+        color: #ffc107; /* Highlight color for selected stars */
+    }
+
+    .star.hovered {
+        color: #ffc107; /* Temporary highlight when hovering */
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const stars = document.querySelectorAll(".star");
+        const ratingInput = document.getElementById("rating-input");
+
+        let currentRating = 0;
+
+        // Load the current rating if already submitted
+        if (ratingInput.value) {
+            currentRating = parseInt(ratingInput.value);
+            highlightStars(currentRating);
+        }
+
+        // Add event listeners to stars
+        stars.forEach(star => {
+            star.addEventListener("click", function () {
+                const value = this.getAttribute("data-value");
+                ratingInput.value = value;
+                currentRating = parseInt(value);
+
+                // Update the UI with the selected rating
+                highlightStars(currentRating);
+            });
+
+            star.addEventListener("mouseover", function () {
+                // Temporarily highlight stars on hover
+                const value = this.getAttribute("data-value");
+                highlightStars(value);
+            });
+
+            star.addEventListener("mouseleave", function () {
+                // Reset hover effect
+                highlightStars(currentRating);
+            });
+        });
+
+        // Function to highlight stars based on the rating value
+        function highlightStars(value) {
+            stars.forEach(star => {
+                const starValue = parseInt(star.getAttribute("data-value"));
+                if (starValue <= value) {
+                    star.classList.add("selected");
+                    star.classList.remove("hovered");
+                } else {
+                    star.classList.remove("selected");
+                    star.classList.remove("hovered");
+                }
+            });
+        }
+    });
+</script>
 
 {% endblock %}
 

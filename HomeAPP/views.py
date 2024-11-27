@@ -246,12 +246,21 @@ def profile_dashboard(request):
     profile, created = Profile.objects.get_or_create(user=request.user)
     projects = profile.projects.all()
     
-    # Add statistics to each project (like total donations)
+    # Add statistics to each project
     for project in projects:
         project.donations_count = project.donations.count()
-        project.donations_total = sum(donation.amount for donation in project.donations.all())
+        project.donations_total = project.donations.aggregate(total=models.Sum('amount'))['total'] or 0
     
-    return render(request, "profile/profile.html", {"profile": profile, "projects": projects})
+    # Fetch donations specifically related to the profile
+    donations = Donation.objects.filter(profile=profile)
+
+    return render(request, "profile/profile.html", {
+        "profile": profile,
+        "projects": projects,
+        "donations": donations,  # Pass donations to the template
+    })
+
+
 
 @login_required
 def delete_profile(request):

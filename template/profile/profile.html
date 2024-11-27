@@ -69,7 +69,6 @@
                 </div>
             </div>
 
-            <!-- Donations Section -->
             <div class="card shadow mb-4">
                 <div class="card-header bg-success text-white">
                     <h4>Donations</h4>
@@ -84,7 +83,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for donation in profile.donations.all %}
+                            {% for donation in donations %}
                                 <tr>
                                     <td>{{ donation.title }}</td>
                                     <td>${{ donation.amount }}</td>
@@ -99,7 +98,7 @@
                     </table>
                 </div>
             </div>
-
+            
             <!-- Projects Section -->
             <div class="card shadow">
                 <div class="card-header bg-info text-white">
